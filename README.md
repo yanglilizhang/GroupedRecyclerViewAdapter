@@ -2,6 +2,8 @@
 
 GroupedRecyclerViewAdapter可以很方便的实现RecyclerView的分组显示，并且每个组都可以包含组头、组尾和子项；可以方便实现多种Type类型的列表，可以实现如QQ联系人的列表一样的列表展开收起功能，还可以实现头部悬浮吸顶功能等。下面先让我们看一下它所能够实现的一些效果：
 
+### 效果图
+
 ![分组的列表](https://github.com/donkingliang/GroupedRecyclerViewAdapter/blob/master/GroupedRecyclerViewAdapter%E6%BC%94%E7%A4%BA%E5%9B%BE/%E5%88%86%E7%BB%84%E7%9A%84%E5%88%97%E8%A1%A8.jpg) ![不带组尾的列表](https://github.com/donkingliang/GroupedRecyclerViewAdapter/blob/master/GroupedRecyclerViewAdapter%E6%BC%94%E7%A4%BA%E5%9B%BE/%E4%B8%8D%E5%B8%A6%E7%BB%84%E5%B0%BE%E7%9A%84%E5%88%97%E8%A1%A8.jpg) ![不带组头的列表](https://github.com/donkingliang/GroupedRecyclerViewAdapter/blob/master/GroupedRecyclerViewAdapter%E6%BC%94%E7%A4%BA%E5%9B%BE/%E4%B8%8D%E5%B8%A6%E7%BB%84%E5%A4%B4%E7%9A%84%E5%88%97%E8%A1%A8.jpg) ![子项为Grid的列表](https://github.com/donkingliang/GroupedRecyclerViewAdapter/blob/master/GroupedRecyclerViewAdapter%E6%BC%94%E7%A4%BA%E5%9B%BE/%E5%AD%90%E9%A1%B9%E4%B8%BAGrid%E7%9A%84%E5%88%97%E8%A1%A8.jpg) ![子项为Grid的列表(各组子项的Span不同)](https://github.com/donkingliang/GroupedRecyclerViewAdapter/blob/master/GroupedRecyclerViewAdapter%E6%BC%94%E7%A4%BA%E5%9B%BE/%E5%AD%90%E9%A1%B9%E4%B8%BAGrid%E7%9A%84%E5%88%97%E8%A1%A8(%E5%90%84%E7%BB%84%E5%AD%90%E9%A1%B9%E7%9A%84Span%E4%B8%8D%E5%90%8C).jpg) ![头、尾和子项都支持多种类型的列表](https://github.com/donkingliang/GroupedRecyclerViewAdapter/blob/master/GroupedRecyclerViewAdapter%E6%BC%94%E7%A4%BA%E5%9B%BE/%E5%A4%B4%E3%80%81%E5%B0%BE%E5%92%8C%E5%AD%90%E9%A1%B9%E9%83%BD%E6%94%AF%E6%8C%81%E5%A4%9A%E7%A7%8D%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E8%A1%A8.jpg)  
 
 ![多种子项类型的列表](https://github.com/donkingliang/GroupedRecyclerViewAdapter/blob/master/GroupedRecyclerViewAdapter%E6%BC%94%E7%A4%BA%E5%9B%BE/%E5%A4%9A%E7%A7%8D%E5%AD%90%E9%A1%B9%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%97%E8%A1%A8.jpg)
@@ -16,7 +18,7 @@ GroupedRecyclerViewAdapter可以很方便的实现RecyclerView的分组显示，
 
 以上展示的只是GroupedRecyclerViewAdapter能实现的一些常用效果，其实使用GroupedRecyclerViewAdapter还可以很容易的实现一些更加复杂的列表效果。在我的GroupedRecyclerViewAdapter项目的Demo中给出了上面几种效果的实现例子，并且有详细的注释说明，有兴趣的同学可以到我的GitHub下载源码。下面直接讲解GroupedRecyclerViewAdapter的使用。
 
-**1、引入依赖** 
+### 引入依赖 
 
 在Project的build.gradle在添加以下代码
 
@@ -31,18 +33,26 @@ GroupedRecyclerViewAdapter可以很方便的实现RecyclerView的分组显示，
 在Module的build.gradle在添加以下代码
 
 ```
-	implementation 'com.github.donkingliang:GroupedRecyclerViewAdapter:2.0.0'
-```
-**注意：** 从2.0.0版本开始，GroupedRecyclerViewAdapter的依赖迁移至Androidx。如果你的项目还没有迁移或使用Androidx，可以使用1.3.2版本。
 
-**2、继承GroupedRecyclerViewAdapter**
+// 使用了Androidx
+
+implementation 'com.github.donkingliang:GroupedRecyclerViewAdapter:2.4.0'
+
+// 使用Android support包
+
+implementation 'com.github.donkingliang:GroupedRecyclerViewAdapter:2.4.0-support'
+```
+
+### 基本使用
+
+**1、继承GroupedRecyclerViewAdapter**
 
 ```java
 public class GroupedListAdapter extends GroupedRecyclerViewAdapter {
 }
 ```
 
-**3、实现GroupedRecyclerViewAdapter里的方法**
+**2、实现GroupedRecyclerViewAdapter里的方法**
 
 GroupedRecyclerViewAdapter是一个抽象类，它提供了一系列需要子类去实现的方法。
 
@@ -90,7 +100,7 @@ GroupedRecyclerViewAdapter是一个抽象类，它提供了一系列需要子类
 	//返回子项的viewType。
     public int getChildViewType(int groupPosition, int childPosition) ;
 ```
-**4、设置点击事件的监听**
+**3、设置点击事件的监听**
 
 GroupedRecyclerViewAdapter提供了对列表的点击事件的监听方法。
 
@@ -111,7 +121,106 @@ GroupedRecyclerViewAdapter提供了对列表的点击事件的监听方法。
     }
 ```
 
-####  **注意事项：**
+**4、设置空布局**
+
+GroupedRecyclerViewAdapter提供设置空布局的功能，如果列表没有数据的情况下可以显示一个空布局。
+```java
+// 显示空布局。默认不显示
+adapter.showEmptyView(true);
+```
+框架提供的默认空布局比较简单，可以通过复写getEmptyView自定义空布局
+```java
+    @Override
+    public View getEmptyView(ViewGroup parent) {
+    // 返回自定义空布局
+        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_empty_view, parent, false);
+        return view;
+    }
+```
+框架只提供空布局的设置方法，不会管理空布局。所以如果你的空布局有点击事件等其他的业务逻辑，也需要自己在这个方法实现。
+
+**5、使用ItemDecoration**
+
+从2.4.0版本开始，支持使用ItemDecoration。之前一直没有对GroupedRecyclerViewAdapter提供ItemDecoration的支持，是因为对于分组的列表，每个分组的ItemDecoration和组头、组尾的ItemDecoration都应该是可以单独设置样式的。这对于自定义ItemDecoration的实现比较麻烦，而且难以实现统一的设置和扩展方式。后来我实现了一个自定义ItemDecoration的库：[VariedItemDecoration](https://github.com/donkingliang/VariedItemDecoration)。使用VariedItemDecoration可以实现在一个列表里显示多种不同样式的ItemDecoration，并且可以非常简单的实现自定义ItemDecoration。基于VariedItemDecoration的实现基础，我实现了多样式ItemDecoration的分组管理，使ItemDecoration可以使用于GroupedRecyclerViewAdapter列表。我在库里提供了可直接使用的GroupedLinearItemDecoration/GroupedGridItemDecoration和用于自定义ItemDecoration的基类AbsGroupedLinearItemDecoration/AbsGroupedGridItemDecoration。
+
+下面我以线性列表为例，说明ItemDecoration使用。
+
+```java
+// 空白分割线，只需要设置分割线大小，不需要设置样式，divider为空则只添加间隔，不绘制样式
+GroupedLinearItemDecoration itemDecoration = new GroupedLinearItemDecoration(adapter,20, null,20,null,20,null);
+
+// 普通分割线，设置分割线大小和头、尾、子项的分割线样式
+GroupedLinearItemDecoration itemDecoration = new GroupedLinearItemDecoration(adapter,20, mHeaderDivider,20,mFooterDivider,20,mChildDivider);
+
+// 自定义分割线，可以根据需要设置每个item的分割线大小和样式
+CustomLinearItemDecoration itemDecoration = new CustomLinearItemDecoration(this,adapter);
+
+// 添加分割线
+recyclerView.addItemDecoration(itemDecoration);
+
+// 自定义分割线
+public class CustomLinearItemDecoration extends AbsGroupedLinearItemDecoration {
+
+    private Drawable headerDivider;
+    private Drawable footerDivider;
+    private Drawable childDivider1;
+    private Drawable childDivider2;
+
+    public CustomLinearItemDecoration(Context context,GroupedRecyclerViewAdapter adapter) {
+        super(adapter);
+
+        headerDivider = context.getResources().getDrawable(R.drawable.green_divider);
+        footerDivider = context.getResources().getDrawable(R.drawable.purple_divider);
+        childDivider1 = context.getResources().getDrawable(R.drawable.pink_divider);
+        childDivider2 = context.getResources().getDrawable(R.drawable.orange_divider);
+    }
+
+    @Override
+    public int getChildDividerSize(int groupPosition, int ChildPosition) {
+        // 根据position返回分割线的大小
+        return 20;
+    }
+
+    @Override
+    public Drawable getChildDivider(int groupPosition, int ChildPosition) {
+        // 根据position返回Drawable 可以为null
+        if(groupPosition % 2 == 0){
+            return childDivider1;
+        } else {
+            return childDivider2;
+        }
+    }
+
+    @Override
+    public int getHeaderDividerSize(int groupPosition) {
+        // 根据position返回分割线的大小
+        return 30;
+    }
+
+    @Override
+    public Drawable getHeaderDivider(int groupPosition) {
+        // 根据position返回Drawable 可以为null
+        return headerDivider;
+    }
+
+    @Override
+    public int getFooterDividerSize(int groupPosition) {
+        // 根据position返回分割线的大小
+        return 30;
+    }
+
+    @Override
+    public Drawable getFooterDivider(int groupPosition) {
+        // 根据position返回Drawable 可以为null
+        return footerDivider;
+    }
+}
+```
+对于网格列表的ItemDecoration，使用也是一样的，大家可以看我demo中的例子。
+
+如果你想在普通的RecyclerView中使用这种多样式的ItemDecoration，请使用[VariedItemDecoration](https://github.com/donkingliang/VariedItemDecoration)。
+
+###  注意事项
 
 **1、对方法重写的注意。**
 
@@ -309,6 +418,7 @@ public final void notifyItemRangeRemoved(int positionStart, int itemCount);
     // 通知一组里的所有子项插入
     public void notifyChildrenInserted(int groupPosition);
 ```
+***注意：*** GroupedRecyclerViewAdapter不管理列表数据源，在调用notifyxxxRemoved或者notifyxxxInserted等方法刷新列表前，请相应的刷新数据源。也就是说，对数据的操作应该写在对列表的刷新前。
 
 **3、使用GridLayoutManager的注意**
 

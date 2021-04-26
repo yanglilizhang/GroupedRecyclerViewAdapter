@@ -108,6 +108,13 @@ public class StickyHeaderLayout extends FrameLayout {
     }
 
     /**
+     * 强制更新吸顶布局。
+     */
+    public void updateStickyView() {
+        updateStickyView(true);
+    }
+
+    /**
      * 更新吸顶布局。
      *
      * @param imperative 是否强制更新。
@@ -166,6 +173,11 @@ public class StickyHeaderLayout extends FrameLayout {
                 }
             }
 
+            if (mRecyclerView.computeVerticalScrollOffset() == 0){
+                // 滑动到顶部
+                recycle();
+            }
+
             //这是是处理第一次打开时，吸顶布局已经添加到StickyLayout，但StickyLayout的高依然为0的情况。
             if (mStickyLayout.getChildCount() > 0 && mStickyLayout.getHeight() == 0) {
                 mStickyLayout.requestLayout();
@@ -213,7 +225,7 @@ public class StickyHeaderLayout extends FrameLayout {
             public void run() {
                 updateStickyView(true);
             }
-        }, 100);
+        }, 64);
     }
 
     /**
@@ -241,6 +253,7 @@ public class StickyHeaderLayout extends FrameLayout {
      * 回收并移除吸顶布局
      */
     private void recycle() {
+        mCurrentStickyGroup = -1;
         if (mStickyLayout.getChildCount() > 0) {
             View view = mStickyLayout.getChildAt(0);
             mStickyViews.put((int) (view.getTag(VIEW_TAG_TYPE)),
@@ -388,7 +401,7 @@ public class StickyHeaderLayout extends FrameLayout {
     @Override
     public void scrollBy(int x, int y) {
         if (mRecyclerView != null) {
-            mRecyclerView.scrollBy(x,y);
+            mRecyclerView.scrollBy(x, y);
         } else {
             super.scrollBy(x, y);
         }
@@ -397,7 +410,7 @@ public class StickyHeaderLayout extends FrameLayout {
     @Override
     public void scrollTo(int x, int y) {
         if (mRecyclerView != null) {
-            mRecyclerView.scrollTo(x,y);
+            mRecyclerView.scrollTo(x, y);
         } else {
             super.scrollTo(x, y);
         }
